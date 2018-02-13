@@ -1,26 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>MY APP</title>
+    <title>Blog posting test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-  May Node and Express be with you.
+    <div class="container">
 
-  <ul class="posts">
-  <% for(var i=0; i<posts.length; i++) {%>
-    <li class="quote">
-      <span><%= posts[i].pageTitle %></span>
-      <span><%= posts[i].pageContent %></span>
-      <span><%= posts[i].pageSlug %></span>
-    </li>
-  <% } %>
-  </ul>
+        <div class="starter-template">
+            <h1>Blog Post Test</h1>
+            <div class="posts">
+                <% for(var i=0; i<posts.length; i++) {%>
+                    <div class="well quote">
+                        <h1>
+                            <%= posts[i].pageTitle %>
+                        </h1>
+                           <form><input class="form-control" type="text" placeholder="<%= posts[i].postSlug %>" ></form>
+                        <p>
+                            <%= posts[i].pageContent %>
+                        </p>
+                        <span></span>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+        <div class="well">
+            <div class="form-group">
+             
+                <form action="/posts" method="POST">
+                    <input class="form-control" type="text" placeholder="Page Title" name="pageTitle">
 
-  <form action="/posts" method="POST">
-    <input type="text" placeholder="Page Title" name="pageTitle">
-    <input type="text" placeholder="Content" name="pageContent">
-    <button type="submit">Submit</button>
-  </form>
+                    <textarea class="form-control" type="text" placeholder="Content" name="pageContent"></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

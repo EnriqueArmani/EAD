@@ -17,29 +17,39 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
     app.listen(3000, () =>{
         console.log('listening on 3000');
     });
-
-app.use(bodyParser.urlencoded({extended: true}))
-
-app.post('/posts', (req, res) => {
-    db.collection('posts').save(req.body, (err, results) => {
-        if (err) return console.log(err);
-        console.log('saved to database');
-        var postSlug 
-        postSlug = req.body.pageTitle;
-        postSlug.replace(/\s+/g, '-');
-        this.db.collection('posts').pageSlug.save({'postSlug': postSlug}, function (err, results) {
-  if (err) return console.log(err)
-  // saved!
-});
-        res.redirect('/');
-    })
-
-});
-app.get('/', (req, res) => {
-    db.collection('posts').find().toArray((err, result) => {
-        if (err) return console.log(err)
-        res.render('index.ejs', {posts: result})
-    })
-})
+    
+    // View Engine Currently EJS
     app.set('view engine', 'ejs');
+    // Include BodyParser(remove later)
+    app.use(bodyParser.urlencoded({extended: true}))
+    // Render Views
+    app.get('/', (req, res) => {
+        db.collection('posts').find().toArray((err, result) => {
+            if (err) return console.log(err)
+            res.render('index.ejs', {posts: result})
+        })
+    })
+    // Create Blog post on form submit
+    app.post('/posts', (req, res) => {
+        db.collection('posts').save(req.body, (err, results) => {
+            if (err) return console.log(err);
+            console.log('saved to database');
+                //Create Slugs for URL from Page Title
+                db.collection('posts')
+                .findOneAndUpdate({}, {
+                    $set: {
+                        postSlug: req.body.pageTitle.replace(/\s+/g, '-')
+                    }
+                },
+                {
+                    sort: {_id: -1},
+                    upsert: true
+                }, 
+                (err, result) => {
+                    if (err) return res.send(err)
+                    //res.send(result)
+                })
+            res.redirect('/');
+        })
     });
+});
