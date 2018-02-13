@@ -3,7 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 var db
+var jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
 
+var $ = jQuery = require('jquery')(window);
 
 MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead', (err, client) => {
     if (err) return console.log(err);
@@ -13,20 +19,27 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
     });
 
 app.use(bodyParser.urlencoded({extended: true}))
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
-});
-app.post('/quotes', (req, res) => {
-    db.collection('quotes').save(req.body, (err, results) => {
+
+app.post('/posts', (req, res) => {
+    db.collection('posts').save(req.body, (err, results) => {
         if (err) return console.log(err);
         console.log('saved to database');
+        var postSlug 
+        postSlug = req.body.pageTitle;
+        postSlug.replace(/\s+/g, '-');
+        this.db.collection('posts').pageSlug.save({'postSlug': postSlug}, function (err, results) {
+  if (err) return console.log(err)
+  // saved!
+});
         res.redirect('/');
     })
+
 });
 app.get('/', (req, res) => {
-    var cursor = db.collection('quotes').find();
-}); 
-db.collection('quotes').find().toArray((err, results) => {
-    console.log(results);
+    db.collection('posts').find().toArray((err, result) => {
+        if (err) return console.log(err)
+        res.render('index.ejs', {posts: result})
+    })
 })
+    app.set('view engine', 'ejs');
     });
