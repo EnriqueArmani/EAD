@@ -18,24 +18,18 @@
 <body>
     <div class="container">
 
-        <div class="starter-template">
-            <h1>Blog Post Test</h1>
-            <div class="posts">
-                <% for(var i=0; i<posts.length; i++) {%>
-                    <div class="well quote">
-                        <a href="/posts/<%= posts[i].postSlug %>"><h1>
-                            <%= posts[i].postTitle %>
-                            </h1></a>
-                           <form><input class="form-control" type="text" placeholder="<%= posts[i].postSlug %>" ></form>
-                        <p>
-                            <%= posts[i].postContent %>
-                        </p>
-                        <span></span>
-                    </div>
-                    <% } %>
+
+        <div class="well">
+            <div class="form-group">
+             
+                <form action="/posts" method="POST">
+                    <input class="form-control" type="text" placeholder="Page Title" name="postTitle">
+
+                    <textarea class="form-control" type="text" placeholder="Content" name="postContent"></textarea>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
         </div>
- 
     </div>
     <!-- /.container -->
 

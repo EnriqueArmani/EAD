@@ -12,6 +12,7 @@ global.document = document;
 var $ = jQuery = require('jquery')(window);
 
 MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead', (err, client) => {
+    
     if (err) return console.log(err);
     db = client.db('ead');
     app.listen(3000, () =>{
@@ -26,7 +27,29 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
     app.get('/', (req, res) => {
         db.collection('posts').find().toArray((err, result) => {
             if (err) return console.log(err)
-            res.render('index.ejs', {posts: result})
+            res.render('index', {
+                posts: result
+            })
+        })
+    })
+    app.get('/admin', function(req, res) {
+        res.render('admin');
+    });
+
+    // blog post
+    // blog post
+    app.get('/posts/:postSlug', (req, res) => {
+        // find the post in the `posts` array 
+        db.collection('posts').find().toArray((err, result) => {   
+            var post = result.filter((post) => {
+                return post.id == req.params._id
+            })[0]
+            console.log(post);
+            // render the `post.ejs` template with the post content
+            res.render('posts', {
+                postTitle: post.postTitle,
+                postContent: post.postContent,
+            })
         })
     })
     // Create Blog post on form submit
@@ -38,7 +61,7 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
                 db.collection('posts')
                 .findOneAndUpdate({}, {
                     $set: {
-                        postSlug: req.body.pageTitle.replace(/\s+/g, '-')
+                        postSlug: req.body.postTitle.replace(/\s+/g, '-')
                     }
                 },
                 {
