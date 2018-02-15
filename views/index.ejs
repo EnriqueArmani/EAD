@@ -27,9 +27,9 @@
                             <%= posts[i].postTitle %>
                             </h1></a>
                            <form><input class="form-control" type="text" placeholder="<%= posts[i].postSlug %>" ></form>
-                        <p>
-                            <%= posts[i].postContent %>
-                        </p>
+                        
+                            <%= posts[i].postContent %>.toHTML()
+                        
                         <span></span>
                     </div>
                     <% } %>
