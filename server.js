@@ -33,8 +33,9 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
             })
         })
     })
-    app.get('/admin', function(req, res) {
-        res.render('admin');
+   //Render New Post Admin 
+    app.get('/admin/blog/new-post', function(req, res) {
+        res.render('/admin/blog/newpost');
     });
 
     // blog post
