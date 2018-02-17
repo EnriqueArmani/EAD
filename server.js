@@ -34,10 +34,17 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
         })
     })
    //Render New Post Admin 
-    app.get('/admin', function(req, res) {
+    app.get('/admin/blog/newpost', function(req, res) {
         res.render('newblogpost');
     });
-
+    app.get('/admin/blog', function(req, res) {
+        db.collection('posts').find().toArray((err, result) => {
+            if (err) return console.log(err)
+            res.render('blogs', {
+                posts: result
+            })
+        })
+    });
     // blog post
     // blog post
     app.get('/posts/:postSlug', (req, res) => {
@@ -51,6 +58,7 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
             res.render('posts', {
                 postTitle: post.postTitle,
                 postContent: post.postContent,
+                
             })
         })
     })
@@ -61,20 +69,20 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
             console.log('saved to database');
                 //Create Slugs for URL from Page Title
                 db.collection('posts')
-                .findOneAndUpdate({}, {
+                .findOneAndUpdate({"postSlug": { $eq: "" } }, {
                     $set: {
                         postSlug: req.body.postTitle.replace(/\s+/g, '-')
                     }
                 },
                 {
-                    sort: {_id: -1},
-                    upsert: true
+                    //sort: {_id: -1},
+                    //upsert: true
                 }, 
                 (err, result) => {
                     if (err) return res.send(err)
                     //res.send(result)
                 })
-            res.redirect('/');
+            res.redirect('/admin/blog');
         })
     });
 });

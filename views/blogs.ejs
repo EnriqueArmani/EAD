@@ -204,17 +204,46 @@
                                     <h4 class="title">New Blog Post</h4>
                                 </div>
                                 <div class="content">
-                                <form action="/posts" method="POST">
-                                    <div class="form-group">
-                                    <input id="post-title-field" class="form-control" type="text" placeholder="Page Title" name="postTitle">
-                                   </div>
-                                    <div class="form-group"><input id="post-slug-field" class="form-control" type="text" placeholder="Post Slug" name="postSlug"></div>
-                                    <div class="form-group">
-                                    <textarea  id="postContent" type="text" placeholder="Content" name="postContent"> </textarea>
-                                   </div>
-                                    <button class="btn btn-info btn-fill pull-right" type="submit">Submit</button>
-                                    <div class="clearfix"></div>
-                                </form>
+                                <div class="card">
+                            <div class="header">
+                                <h4 class="title">Blog Posts</h4>
+                                <p class="category">Backend development</p>
+                            </div>
+                            <div class="content">
+                                <div class="table-full-width">
+                                    <table class="table">
+                                        <tbody>
+                                            <% for(var i=0; i<posts.length; i++) {%>
+                                            <tr>
+                                                <td>
+													<div class="checkbox">
+						  							  	<input id="checkbox1" type="checkbox">
+						  							  	<label for="checkbox1"></label>
+					  						  		</div>
+                                                </td>
+                                                <td><%= posts[i].postTitle %></td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Task">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="footer">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-history"></i> Updated 3 minutes ago
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             </div>
                             
 
