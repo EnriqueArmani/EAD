@@ -1,44 +1,7 @@
-const MongoClient = require('mongodb').MongoClient;
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const methodOverride  = require("method-override");
-var db
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = (new JSDOM('')).window;
-global.document = document;
-app.use(express.static(__dirname + '/views'));
-app.use(methodOverride('_method'));
-app.use('/scripts', express.static(__dirname + '/node_modules/tinymce/'));
-var $ = jQuery = require('jquery')(window);
+var express = require('express');
+var app = express();
 
-
-//Connect to MongoDB 
-
-MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead', (err, client) => {
-    
-    //Object ID variable to connect to Current Document In Put Requests
-    var ObjectID = require('mongodb').ObjectID;
-    if (err) return console.log(err);
-    
-    //Database Variable and Server Start
-    db = client.db('ead');
-    
-    app.listen(3000, () =>{
-        console.log('listening on 3000');
-   
-
-    });
-    
-    // View Engine Currently EJS
-    app.set('view engine', 'ejs');
-    
-    // Include BodyParser(remove later)
-    app.use(bodyParser.urlencoded({extended: true}))
-    
-    // Render Blog
+// Render Blog
     app.get('/', (req, res) => {
         db.collection('posts').find().toArray((err, result) => {
             if (err) return console.log(err)
@@ -97,7 +60,9 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
         })
     })
     
-    // Blog Posting Function
+   
+
+// Blog Posting Function
     app.post('/posts', (req, res) => {
             db.collection('posts').save(req.body, (err, results) => {
                 if (err) return console.log(err);
@@ -147,4 +112,3 @@ MongoClient.connect('mongodb://eadusr:eadusrdbtest@ds229918.mlab.com:29918/ead',
         res.send({message: 'Post deleted'})
       })
     })
-});
