@@ -6,6 +6,6 @@ var router = express.Router();
 
 router.use('/posts', posts);
 router.use('/admin', admin);
-router.use('/login', login);
+router.use('/', login);
 
 module.exports = router;
