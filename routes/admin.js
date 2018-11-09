@@ -56,7 +56,7 @@ router.get('/pages/:pageSlug', require('connect-ensure-login').ensureLoggedIn(),
             pageTitle: page.pageTitle,
             pageContent: page.pageContent,
             pageSlug: page.pageSlug,
-            
+
         })
     })
 })
@@ -81,8 +81,7 @@ router.post('/pages', (req, res) => {
                     $set: {
                         pageSlug: req.body.pageTitle.replace(/\s+/g, '-')
                     }
-                }, {
-                },
+                }, {},
                 (err, result) => {
                     if (err) return res.send(err)
                 })
@@ -180,33 +179,93 @@ router.get('/posts/newpost', require('connect-ensure-login').ensureLoggedIn(), (
 router.get('/posts/:postSlug', require('connect-ensure-login').ensureLoggedIn(), (req, res) => {
 
     // find the post in the `posts` array 
-
     db.collection('posts').find().toArray((err, result) => {
         var post = result.filter((post) => {
             return post.id == req.params._id
         })[0];
-        var categories = []
-        for(var i=0; i > result.length; i++){
-                for(var j=0;j>result[i].postCategories.length;j++){
-                    categories.push(postCategories[j])
-                }
+        var categories = [];
+
+        console.log(result);
+        result.forEach(val => {
+            if (val.postCategories) {
+                val.postCategories.forEach(item => {
+                    categories.push(item);
+                })
             }
-        categories = categories.filter( function( item, index, inputArray ) {
-           return inputArray.indexOf(item) == index;
-    });
+        })
+        console.log(categories)
+        categories = categories.filter((item, index, inputArray) => {
+            return inputArray.indexOf(item) == index;
+        });
         console.log(post);
+        console.log(result);
         console.log(categories);
-        console.log(result[i].postCategories[j])
-        // render the `post.ejs` template with the post content
+
         res.render('admin/postedit', {
             postTitle: post.postTitle,
             postContent: post.postContent,
             postSlug: post.postSlug,
             categories: categories,
-        })
-    })
+        });
+    });
+
 })
 
+/********************************************************
+ *                                                      *
+ *    Render Post Editing  with unnasigned categories   *
+ *                                                      *
+ ******************************************************
+router.get('/posts/:postSlug', require('connect-ensure-login').ensureLoggedIn(), (req, res) => {
+    var categories = [];
+    var unassignedCategories = [];
+    var post = [];
+    // find the post in the `posts` array 
+    db.collection('posts').find().toArray((err, result) => {
+        post = result.filter((post) => {
+            return post.id == req.params._id
+        })[0];
+
+
+        console.log(result);
+        result.forEach(val => {
+            if (val.postCategories) {
+                val.postCategories.forEach(item => {
+                    categories.push(item);
+                })
+            }
+        });
+
+        categories = categories.filter(function (item, index, inputArray) {
+            return inputArray.indexOf(item) == index;
+        });
+        console.log(post);
+        console.log(result);
+        console.log(categories);
+
+    });
+
+    db.collection('unnasignedCategories').find().toArray((err, result) => {
+        if (err) return console.log(err)
+        result.forEach(val => {
+            if (val.postCategories) {
+                val.postCategories.forEach(item => {
+                    unassignedCategories.push(item);
+                })
+            }
+        });
+    });
+    console.log(categories);
+    console.log(post);
+    res.render('admin/postedit', {
+        postTitle: post.postTitle,
+        postContent: post.postContent,
+        postSlug: post.postSlug,
+        categories: categories,
+    });
+
+
+})*/
 
 /*****************************
  *                            *
@@ -217,7 +276,7 @@ router.post('/posts', (req, res) => {
     db.collection('posts').save(req.body, (err, results) => {
         if (err) return console.log(err);
         console.log('saved to database');
-        
+
         //Create Slugs for URL from Page Title
         db.collection('posts')
             .findOneAndUpdate({
@@ -244,19 +303,20 @@ router.post('/posts', (req, res) => {
  *****************************/
 router.put('/posts/update', (req, res) => {
     db.collection('posts').findOneAndUpdate({
-            _id: ObjectID
-        }, {
-            $set: {
-                postTitle: req.body.postTitle,
-                postContent: req.body.postContent,
-                postSlug: req.body.postSlug,
-            }
-        }, {
-            upsert: true
-        }, (err, result) => {
-            if (err) return res.send(err)
-            res.redirect('/admin/posts')
-        })
+        _id: ObjectID
+    }, {
+        $set: {
+            postTitle: req.body.postTitle,
+            postContent: req.body.postContent,
+            postSlug: req.body.postSlug,
+        
+        }
+    }, {
+        upsert: true
+    }, (err, result) => {
+        if (err) return res.send(err)
+        res.redirect('/admin/posts')
+    })
 })
 
 /*****************************

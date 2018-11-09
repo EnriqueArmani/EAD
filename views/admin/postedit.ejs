@@ -13,8 +13,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Warning: Delete Post</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form method="POST" action="/posts/delete?_method=DELETE">
                     <div class="modal-body">
@@ -42,102 +42,103 @@
     <div class="wrapper">
         <% include partials/sidebar %>
 
-            <div class="main-panel">
-                <% include partials/topnav %>
-<form method="POST" action="/posts/update?_method=PUT">
-                    <div class="content">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="card">
-                                        <div class="header">
-                                            <h4 class="title">Edit Blog Post</h4>
-                                        </div>
-                                        <div class="content">
-                                            
-                                                <div class="form-group">
-                                                    <%= postSlug %>
-                                                        <input id="post-title-field" class="form-control" type="text" placeholder="Page Title" name="postTitle">
-                                                </div>
-                                                <div class="form-group"><input id="post-slug-field" class="form-control" type="text" placeholder="Post Slug" name="postSlug"></div>
-                                                <div class="form-group">
-                                                    <textarea id="postContent" type="text" placeholder="Content" name="postContent"> </textarea>
-                                                </div>
-                                                <button class="btn btn-info btn-fill pull-right" value="put" type="submit">Update</button>
+        <div class="main-panel">
+            <% include partials/topnav %>
+            <form method="POST" action="/posts/update?_method=PUT">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title">Edit Blog Post</h4>
+                                    </div>
+                                    <div class="content">
 
-                                                <button style="margin-right:10px;" type="button" class="btn btn-fill btn-danger pull-right" data-toggle="modal" data-target="#deleteModal">
- Delete
-</button>
-                                                <div class="clearfix"></div>
-
-                                            
+                                        <div class="form-group">
+                                            <%= postSlug %>
+                                            <input id="post-title-field" class="form-control" type="text" placeholder="Page Title" name="postTitle">
                                         </div>
+                                        <div class="form-group"><input id="post-slug-field" class="form-control" type="text" placeholder="Post Slug" name="postSlug"></div>
+                                        <div class="form-group">
+                                            <textarea id="postContent" type="text" placeholder="Content" name="postContent"> </textarea>
+                                        </div>
+                                        <button class="btn btn-info btn-fill pull-right" value="put" type="submit">Update</button>
+
+                                        <button style="margin-right:10px;" type="button" class="btn btn-fill btn-danger pull-right" data-toggle="modal" data-target="#deleteModal">
+                                            Delete
+                                        </button>
+                                        <div class="clearfix"></div>
 
 
                                     </div>
+
+
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="header">
-                                            <h4 class="title">Categories</h4>
-                                            <div class="category">
-                                               <% for(var i=0; i<categories.length; i++) {%>
-                                                    
-                                                <label><input type="checkbox" name="postCategories[]" value="<%= categories[i] %>" /><%= categories[i] %></label>
-                                               <% } %>
-                                                </div>
-                                            </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title">Categories</h4>
+                                        <div class="category">
+                                            <% for(var i=0; i<categories.length; i++) {%>
+
+                                            <label><input type="checkbox" name="postCategories[]" value="<%= categories[i] %>" />
+                                                <%= categories[i] %></label>
+                                            <% } %>
                                         </div>
-                                    
-                                    <div class="card">
-                                        <div class="header">
-                                            <h4 class="title">Blog Posts</h4>
-                                            <p class="category">View and Edit Your Blog Posts</p>
-                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title">Blog Posts</h4>
+                                        <p class="category">View and Edit Your Blog Posts</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-    </form>
-            </div>
+                </div>
+            </form>
+        </div>
 
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul>
-                            <li>
-                                <a href="#">
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+                        <li>
+                            <a href="#">
                                 Home
                             </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                        </li>
+                        <li>
+                            <a href="#">
                                 Company
                             </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                        </li>
+                        <li>
+                            <a href="#">
                                 Portfolio
                             </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                               Blog
+                        </li>
+                        <li>
+                            <a href="#">
+                                Blog
                             </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <p class="copyright pull-right">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
+                        </li>
+                    </ul>
+                </nav>
+                <p class="copyright pull-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
 
-                        </script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-                    </p>
-                </div>
-            </footer>
+                    </script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                </p>
+            </div>
+        </footer>
 
 
     </div>

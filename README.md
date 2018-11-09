@@ -1,3 +1,5 @@
-# A Node.js test project
+# A Content Managment system Created in Node JS
 
-just a project I'm working on to learn node with ejs
+A Project Relying on NodeJS to run My personal site.
+
+Built with Node.js, Express, and MongoDB.

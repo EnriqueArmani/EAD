@@ -58,7 +58,7 @@ MongoClient.connect(mongourl, (err, client) => {
                 if (!user) {
                     return cb(null, false);
                 }
-                bcrypt.compare(password, user.password, function (err, res) {
+                bcrypt.compare(password, user.password, (err, res) => {
                     if (err) return cb(err);
                     if (res === false) {
                         return cb(null, false);
@@ -105,7 +105,7 @@ MongoClient.connect(mongourl, (err, client) => {
     app.use(passport.session());
     var routes = require('./routes');
     app.use('/', routes);
-    
-    
+
+
 
 });
